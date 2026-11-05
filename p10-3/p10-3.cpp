@@ -75,3 +75,36 @@ bool hasRun(int values[], int size) {
     return false;
 }
 
+// Displays array elements, enclosing adjacent matching sequences inside parentheses
+void displayRun(int values[], int size) {
+    bool inRun = false;
+
+    for (int i = 0; i < size; i++) {
+        // Check if a new run begins here
+        if (!inRun && i < size - 1 && values[i] == values[i + 1]) {
+            cout << "(";
+            inRun = true;
+        }
+
+        // Print space between numbers if not right after opening '('
+        if (i > 0 && !(inRun && values[i] == values[i - 1] && (i == 1 || values[i - 1] != values[i - 2]))) {
+            // Add a space before printing values[i] if not immediately following '('
+            if (!(inRun && (i == 0 || values[i] != values[i - 1]))) {
+                cout << " ";
+            }
+        }
+
+        cout << values[i];
+
+        // Check if current run ends here
+        if (inRun && (i == size - 1 || values[i] != values[i + 1])) {
+            cout << ")";
+            inRun = false;
+        }
+
+        // Print space after standard element if not inside or just closing a run
+        if (i < size - 1 && !inRun && values[i] != values[i + 1]) {
+            cout << " ";
+        }
+    }
+}
